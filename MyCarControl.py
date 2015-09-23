@@ -7,9 +7,6 @@ class MyCarControl():
     def __init__(self):
         print "init"
 
-    def handle(self, data):
-        print data
-
     def stop():
         print "stop"
 
@@ -26,13 +23,16 @@ class MyCarControl():
         print "right"
 
     """
-    def __init__():
+    def __init__(self):
 		GPIO.setmode(GPIO.BOARD)
 		GPIO.setwarnings(False)
 		GPIO.setup(11,GPIO.OUT)
 		GPIO.setup(12,GPIO.OUT)
 		GPIO.setup(15,GPIO.OUT)
 		GPIO.setup(16,GPIO.OUT)
+
+    def handle(self, data):
+        print data
 
     def stop():
         GPIO.output(11, False)
