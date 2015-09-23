@@ -7,8 +7,9 @@
             if (window.MozWebSocket) {
                 window.WebSocket = window.MozWebSocket;
             }
+            var action_list = ['stop', 'up', 'down', 'left', 'right'];
 
-            conn = new WebSocket('ws://localhost:7000/');    
+            conn = new WebSocket('ws://'+window.location.hostname+':7000/');    
 
             // 链接
             conn.onopen = function () {
@@ -25,17 +26,14 @@
 
             // 方向控制
             document.addEventListener("touchstart", control_handle, false);
-            document.addEventListener("mousedown", control_handle, false);
 
             // 停止
             document.addEventListener("touchend", stop, false);
             document.addEventListener("touchcancel", stop, false);
-            document.addEventListener("mouseup", stop, false);
-
             // 控制
             function control_handle(event) {
-                eid = event.target.id;
-                if (eid) {
+                eid = event.target.parentElement.id;
+                if (action_list.indexOf(eid) >= 0) {
                     conn.send(eid);
                 } else {
                     stop();
@@ -79,23 +77,23 @@
         </style>
     </head>
 
-    <body>
+    <body style="-webkit-touch-callout: none;-webkit-user-select:none">
         <div class="page">
 
             <table border="0" cellpadding="3" cellspacing="0">
                 <tr>
                     <th></th>
-                    <th id="up" class="button_ctl"><img src="./img/up.png"/></th>
+                    <th id="up" class="button_ctl"><img src="/static/up.png"/></th>
                     <th></th>
                 </tr>
                 <tr>
-                    <th id="left" class="button_ctl"><img src="./img/left.png"/></th>
-                    <th id="stop" class="button_ctl"><img src="./img/stop.png"/></th>
-                    <th id="right" class="button_ctl"><img src="./img/right.png"/></th>
+                    <th id="left" class="button_ctl"><img src="/static/left.png"/></th>
+                    <th id="stop" class="button_ctl"><img src="/static/stop.png"/></th>
+                    <th id="right" class="button_ctl"><img src="/static/right.png"/></th>
                 </tr>
                 <tr>
                     <th></th>
-                    <th id="down" class="button_ctl"><img src="./img/down.png"/></th>
+                    <th id="down" class="button_ctl"><img src="/static/down.png"/></th>
                     <th></th>
                 </tr>
             </table>

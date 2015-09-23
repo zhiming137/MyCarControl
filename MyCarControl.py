@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
-#import RPi.GPIO as GPIO
+import RPi.GPIO as GPIO
 
 class MyCarControl():
+    """
     def __init__(self):
         print "init"
 
@@ -62,4 +63,3 @@ class MyCarControl():
         GPIO.output(12, False)
         GPIO.output(15, False)
         GPIO.output(16, True)
-    """
