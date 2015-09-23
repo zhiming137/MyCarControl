@@ -44,31 +44,31 @@ class MyCarControl():
             self.shop()
 
 
-    def stop():
+    def stop(self):
         GPIO.output(11, False)
         GPIO.output(12, False)
         GPIO.output(15, False)
         GPIO.output(16, False)
 
-    def up():
+    def up(self):
         GPIO.output(11, True)
         GPIO.output(12, False)
         GPIO.output(15, True)
         GPIO.output(16, False)
 
-    def down():
+    def down(self):
         GPIO.output(11, False)
         GPIO.output(12, True)
         GPIO.output(15, False)
         GPIO.output(16, True)
 
-    def left():
+    def left(self):
         GPIO.output(11, False)
         GPIO.output(12, True)
         GPIO.output(15, True)
         GPIO.output(16, False)
 
-    def right():
+    def right(self):
         GPIO.output(11, True)
         GPIO.output(12, False)
         GPIO.output(15, False)
