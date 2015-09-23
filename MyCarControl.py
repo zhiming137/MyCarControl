@@ -41,7 +41,7 @@ class MyCarControl():
         elif data == 'right':
             self.right()
         else:
-            self.shop()
+            self.stop()
 
 
     def stop(self):
