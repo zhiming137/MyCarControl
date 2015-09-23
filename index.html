@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>MyCar</title>
+        <script>
+            if (window.MozWebSocket) {
+                window.WebSocket = window.MozWebSocket;
+            }
+
+            conn = new WebSocket('ws://localhost:7000/');    
+
+            // 链接
+            conn.onopen = function () {
+            };
+
+            // 关闭链接
+            conn.onclose = function (event) {
+                stop();
+            };
+
+            // 收到数据
+            conn.onmessage = function (event) {
+            };
+
+            // 方向控制
+            document.addEventListener("touchstart", control_handle, false);
+            document.addEventListener("mousedown", control_handle, false);
+
+            // 停止
+            document.addEventListener("touchend", stop, false);
+            document.addEventListener("touchcancel", stop, false);
+            document.addEventListener("mouseup", stop, false);
+
+            // 控制
+            function control_handle(event) {
+                eid = event.target.id;
+                if (eid) {
+                    conn.send(eid);
+                } else {
+                    stop();
+                }
+            }
+
+            //停止
+            function stop(){
+                conn.send("stop");
+            }
+
+        </script>
+        <style>
+            .page {
+                min-width:100%;
+            }
+            table {
+                min-width:100%;
+            }
+            .button_ctl {
+                font: 12px Tahoma, Verdana;
+                padding: 0 5px;
+                color: #D3E0E7;
+                cursor:pointer;
+                background-repeat: no-repeat;
+                background-position: 0 50%;
+                outline: 0px solid #D3E0E7;
+                border: 0px solid #FFF !important;
+                line-height: 17px;
+            }
+            th {
+                font-weight: bold;
+                text:center;
+                height: 280px;
+                width: 280px;
+            }
+            .button_ctl img {
+                height: 280px;
+                width: 280px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="page">
+
+            <table border="0" cellpadding="3" cellspacing="0">
+                <tr>
+                    <th></th>
+                    <th id="up" class="button_ctl"><img src="./img/up.png"/></th>
+                    <th></th>
+                </tr>
+                <tr>
+                    <th id="left" class="button_ctl"><img src="./img/left.png"/></th>
+                    <th id="stop" class="button_ctl"><img src="./img/stop.png"/></th>
+                    <th id="right" class="button_ctl"><img src="./img/right.png"/></th>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th id="down" class="button_ctl"><img src="./img/down.png"/></th>
+                    <th></th>
+                </tr>
+            </table>
+
+        </div>
+    </body>
+</html>
