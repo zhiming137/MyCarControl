@@ -32,7 +32,17 @@ class MyCarControl():
 		GPIO.setup(16,GPIO.OUT)
 
     def handle(self, data):
-        print data
+        if data == 'up':
+            up()
+        elif data == 'down':
+            down()
+        elif data == 'left':
+            left()
+        elif data == 'right':
+            right()
+        else:
+            shop()
+
 
     def stop():
         GPIO.output(11, False)
