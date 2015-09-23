@@ -33,15 +33,15 @@ class MyCarControl():
 
     def handle(self, data):
         if data == 'up':
-            up()
+            self.up()
         elif data == 'down':
-            down()
+            self.down()
         elif data == 'left':
-            left()
+            self.left()
         elif data == 'right':
-            right()
+            self.right()
         else:
-            shop()
+            self.shop()
 
 
     def stop():
