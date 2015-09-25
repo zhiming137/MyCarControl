@@ -2,39 +2,127 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
         <title>MyCar</title>
-        <script>
-            if (window.MozWebSocket) {
-                window.WebSocket = window.MozWebSocket;
-            }
-            var action_list = ['stop', 'up', 'down', 'left', 'right'];
 
-            conn = new WebSocket('ws://'+window.location.hostname+':7000/');    
+        <style>
+            body {
+                margin: 0 0 0 0;
+                -webkit-touch-callout: none;
+                -webkit-user-select:none
+            }
+            .page {
+                position:absolute; 
+                width:100%; 
+                height:65%; 
+                top:10%;
+            }
+            table {
+                width:100%;
+                height:100%;
+            }
+            .button_ctl img {
+                height: 100%;
+                width: 100%;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="page">
+
+            <table border="0" cellpadding="3" cellspacing="0">
+                <tr>
+                    <th></th>
+                    <th id="up" class="button_ctl"><img src="static/up.png"/></th>
+                    <th></th>
+                </tr>
+                <tr>
+                    <th id="left" class="button_ctl"><img src="static/left.png"/></th>
+                    <th id="stop" class="button_ctl"><img src="static/stop.png"/></th>
+                    <th id="right" class="button_ctl"><img src="static/right.png"/></th>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th id="down" class="button_ctl"><img src="static/down.png"/></th>
+                    <th></th>
+                </tr>
+            </table>
+
+        </div>
+        <script>
+            var conn = null;
+            window.onload = function() {
+                if (window.MozWebSocket) {
+                    window.WebSocket = window.MozWebSocket;
+                }
+
+                connectServer();
+
+                // 控制动作
+
+                var button_ctl = document.getElementsByClassName('button_ctl');
+
+                // 绑定事件
+                for(i=0,j=button_ctl.length; i<j; i++) {
+                    // 方向控制
+                    button_ctl[i].addEventListener("touchstart", control_handle, false);
+                    button_ctl[i].addEventListener("onclick", control_handle, false);
+
+                    // 停止
+                    button_ctl[i].addEventListener("touchend", stop, false);
+                    button_ctl[i].addEventListener("touchcancel", stop, false);
+                }
+            }
 
             // 链接
-            conn.onopen = function () {
-            };
+            function connectServer() {
+                var host = window.location.hostname;
+                var port = '7000';
+                
+                try {
+                    server = new WebSocket('ws://'+host+':'+port);    
+                } catch(err) {
+                    console.log(err); 
+                }
+                console.log(server);
+                conn = server;
 
-            // 关闭链接
-            conn.onclose = function (event) {
-                stop();
-            };
+                // 链接
+                server.onopen = function () {
+                };
 
-            // 收到数据
-            conn.onmessage = function (event) {
-            };
+                // 关闭链接
+                server.onclose = function (event) {
+                    stop();
+                };
 
-            // 方向控制
-            document.addEventListener("touchstart", control_handle, false);
+                // 收到数据
+                server.onmessage = function (event) {
+                    
+                };
 
-            // 停止
-            document.addEventListener("touchend", stop, false);
-            document.addEventListener("touchcancel", stop, false);
-            // 控制
+                // 错误
+                server.onerror = function (event) {
+                    console.log('error');
+                    if (conn.redayState != WebSocket.OPEN) {
+                        connectServer();
+                    }
+                }
+            }
+
+            // 控制方法
             function control_handle(event) {
+
+                console.log(conn.redayState);
+                return;
+                if (!conn || conn.redayState != conn.OPEN) {
+                    //connectServer();
+                }
+
+                var action_list = ['stop', 'up', 'down', 'left', 'right'];
                 eid = event.target.parentElement.id;
-                if (action_list.indexOf(eid) >= 0) {
+                if (eid.length > 0 || action_list.indexOf(eid) >= 0) {
                     conn.send(eid);
                 } else {
                     stop();
@@ -47,58 +135,5 @@
             }
 
         </script>
-        <style>
-            .page {
-                min-width:100%;
-            }
-            table {
-                min-width:100%;
-            }
-            .button_ctl {
-                font: 12px Tahoma, Verdana;
-                padding: 0 5px;
-                color: #D3E0E7;
-                cursor:pointer;
-                background-repeat: no-repeat;
-                background-position: 0 50%;
-                outline: 0px solid #D3E0E7;
-                border: 0px solid #FFF !important;
-                line-height: 17px;
-            }
-            th {
-                font-weight: bold;
-                text:center;
-                height: 280px;
-                width: 280px;
-            }
-            .button_ctl img {
-                height: 280px;
-                width: 280px;
-            }
-        </style>
-    </head>
-
-    <body style="-webkit-touch-callout: none;-webkit-user-select:none">
-        <div class="page">
-
-            <table border="0" cellpadding="3" cellspacing="0">
-                <tr>
-                    <th></th>
-                    <th id="up" class="button_ctl"><img src="/static/up.png"/></th>
-                    <th></th>
-                </tr>
-                <tr>
-                    <th id="left" class="button_ctl"><img src="/static/left.png"/></th>
-                    <th id="stop" class="button_ctl"><img src="/static/stop.png"/></th>
-                    <th id="right" class="button_ctl"><img src="/static/right.png"/></th>
-                </tr>
-                <tr>
-                    <th></th>
-                    <th id="down" class="button_ctl"><img src="/static/down.png"/></th>
-                    <th></th>
-                </tr>
-            </table>
-
-        </div>
     </body>
 </html>

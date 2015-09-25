@@ -104,8 +104,9 @@ def main(handle=process):
                     socket_list.remove(sock)
                 else:
                     # 控制器
+                    #print data
                     my_car_control.handle(data)
-                    handle(sock, data)
+                    #handle(sock, data)
 
 if __name__ == '__main__':
     main()
