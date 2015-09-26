@@ -113,10 +113,8 @@
             // 控制方法
             function control_handle(event) {
 
-                if (!conn || conn.redayState != conn.OPEN) {
-                    console.log(conn);
-                    console.log(conn.readyState);
-                    //connectServer();
+                if (!conn || conn.readyState != conn.OPEN) {
+                    connectServer();
                 }
 
                 var action_list = ['stop', 'up', 'down', 'left', 'right'];
